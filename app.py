@@ -42,7 +42,8 @@ def add_message(room_id, user, message):
     message_data = {
         "user": user,
         "message": message,
-        "timestamp": datetime.now().isoformat()
+        "timestamp": datetime.now().isoformat(),
+        "type": "code" if message.strip().startswith("`") and message.strip().endswith("`") else "text"
     }
     r.rpush(room_id, json.dumps(message_data))
     r.expire(room_id, CHAT_TTL_SECONDS)
@@ -95,7 +96,10 @@ if username and room_id:
         messages = get_messages(room_id)
         for msg in messages:
             with st.chat_message(msg["user"]):
-                st.write(msg["message"])
+                if msg["type"] == "code":
+                    st.code(msg["message"].strip("`"))
+                else:
+                    st.write(msg["message"])
                 st.caption(f"Sent at: {datetime.fromisoformat(msg['timestamp']).strftime('%H:%M')}")
     
     if user_message := st.chat_input("Say something..."):
