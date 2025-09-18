@@ -72,7 +72,7 @@ with col2:
         room_id = st.text_input("Enter Chatroom ID", value=st.session_state.room_id)
     else:
         if st.button("Generate Room ID"):
-            room_id = str(uuid.uuid4())[:8]
+            room_id = str(uuid.uuid4())[:4]
             st.session_state.room_id = room_id
             st.rerun()
         room_id = st.text_input("Enter Chatroom ID", value=st.session_state.room_id)
