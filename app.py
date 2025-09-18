@@ -97,7 +97,7 @@ if username and room_id:
         for msg in messages:
             with st.chat_message(msg["user"]):
                 if msg["type"] == "code":
-                    st.code(msg["message"].strip("`"))
+                    st.markdown(msg["message"].strip("`"))
                 else:
                     st.write(msg["message"])
                 st.caption(f"Sent at: {datetime.fromisoformat(msg['timestamp']).strftime('%H:%M')}")
